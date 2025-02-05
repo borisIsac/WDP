@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <form method="post">
+        <h2> {{ title_form }} </h2>
+        {% if error_msg %}
+        <h4 style="color : red">{{ error_msg }}</h4>
+        {% endif %}
+        {% csrf_token %}
+        {{form.as_p}}
+        <div class="btn_search">
+            <button type="submit" class="btn btn-primary">{{ button_submit }}</button>
+        </div>
+    </form>
+    {% if lol %}
+        <h3>
+            <a href="{% url 'employee:password_reset' %}">Forgotten your password?</a>
+        </h3>
+    {% endif %}
+
+</body>
+</html>

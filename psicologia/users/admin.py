@@ -8,6 +8,9 @@ from django.contrib import admin
 class CustomUserAdmin(admin.ModelAdmin):
     model=CustomUser
 
+    exclude = ['first_name', 'last_name', 'is_staff', 'is_superuser', 'groups', 'user_permissions']
+
+
     list_display =  [
             'email',
             'first_name',
@@ -19,6 +22,8 @@ class CustomUserAdmin(admin.ModelAdmin):
 class BuisnesUserAdmin(admin.ModelAdmin):
     model=BuisnesUser
 
+    exclude = ['username','first_name', 'last_name', 'is_staff', 'is_superuser', 'groups', 'user_permissions']
+
     list_display =  [
             'email',
             'companie_name',
@@ -28,3 +33,4 @@ class BuisnesUserAdmin(admin.ModelAdmin):
         ]
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(BuisnesUser, BuisnesUserAdmin)

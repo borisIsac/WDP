@@ -48,7 +48,7 @@ class BuisnesUser(AbstractUser):
 
     groups = models.ManyToManyField(
         Group,
-        related_name="buisnesuser_set",  # Add unique related_name
+        related_name="buisnesuser_set", # Add unique related_name
         blank=True
     )
     user_permissions = models.ManyToManyField(
@@ -65,7 +65,7 @@ class BuisnesUser(AbstractUser):
         verbose_name_plural = "Companies"
     
     email = models.EmailField(unique=True, blank=False, null=False)
-    companie_name = models.CharField(_("Full Name"), max_length=100, blank=False, null=False)
+    companie_name = models.CharField(_("Companie Name"), max_length=100, blank=False, null=False)
     billing_address = models.CharField(_("Billing Address"), max_length=100, blank=False, null=False)
     shipping_address = models.CharField(_("Shipping Address"), max_length=100, blank=False, null=False)
     payment_method = models.CharField(_("Payment Method"), max_length=100, blank=False, null=False)

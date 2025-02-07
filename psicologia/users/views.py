@@ -34,6 +34,8 @@ from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 
 
+def activation_sended(request):
+    return render(request, 'users/activation_sended.html')
 
 def send_activate_link_by_email(user, request):
     """
@@ -55,15 +57,6 @@ def send_activate_link_by_email(user, request):
     
     plain_message = f"Click the link to activate your account: {activation_link}"
     from_email = settings.EMAIL_HOST_USER
-    print('curent_site: ',curent_site.domain, curent_site.__dict__)
-    print('activation_link: ', activation_link)
-    print('html_message: ', html_message)
-    print('plain_message: ', plain_message)
-    print('from_email: ', from_email)
-    print('uid:',uid)
-
-
-
     send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
 
 
@@ -196,7 +189,7 @@ class RegisterView(View):
                     )
                     #send activation email
                     send_activate_link_by_email(new_user, request)
-                    return redirect('users:login')
+                    return redirect('users:activation_sended')
                 except IntegrityError:
                     form.add_error('email', 'A user with that email already exists.')
         context = {

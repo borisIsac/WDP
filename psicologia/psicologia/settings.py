@@ -73,7 +73,10 @@ DATABASES = {
         'PASSWORD': PSQL_USER_PASSWORD, 
         'HOST': '127.0.0.1',          
         'PORT': '5432',               
-    }}
+    }
+}
+
+
 
 
 
@@ -122,3 +125,10 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 AUTHENTICATION_BACKENDS = ['users.authentication_backend_email.EmailAuthBackend']
 
+#email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = EMAIL_SENDER
+EMAIL_HOST_PASSWORD = EMAIL_SENDER_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'                                                                       

@@ -32,7 +32,7 @@ class CustomUser(AbstractUser):
     #todo descuss with team about avatar field. logical of storege(binar_code in DB or path to file)
     #todo add avatar field to DB, form and template
     #todo phone number validation
-
+    is_active = models.BooleanField(_("Active"), default=False)
     email = models.EmailField(unique=True, blank=False, null=False)
     full_name = models.CharField(_("Full Name"), max_length=100, blank=False, null=False)
     phone =models.CharField(_("Phone Number"), blank=True, null=True)

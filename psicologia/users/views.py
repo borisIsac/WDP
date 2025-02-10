@@ -65,6 +65,7 @@ class LoginView(View):
     def get(self, request):
         form = LoginForm()
         context = {
+            'return_main': True,
             'form': form,
             'title': 'Login',
             'title_form': 'User Login',
@@ -81,6 +82,7 @@ class LoginView(View):
         # Get the posted form
         form = LoginForm(data=request.POST)
         context = {
+            'return_main': True,
             'form': form,
             'title': 'Login',
             'title_form': 'User Login',
@@ -141,6 +143,7 @@ class RegisterView(View):
         # Otherwise, display registration form
         form = RegisterFormUser()
         context = {
+            'return_main': True,
             'title': 'Registration',
             'title_form': 'Register New User',
             'form': form,
@@ -191,6 +194,7 @@ class RegisterView(View):
                 except IntegrityError:
                     form.add_error('email', 'A user with that email already exists.')
         context = {
+            'return_main': True,
             "error_msg": "something is wrong in your registration",
             'title': 'Registration',
             'title_form': 'Registration new User',
@@ -206,6 +210,7 @@ class ProfileView(View):
     def get(self, request):
         form = ProfileUserUpdateDataForm(instance=request.user)
         context = {
+            'return_main': True,
             'change_password': True,            
             'form': form,
             'title': 'My Profile',
@@ -220,6 +225,7 @@ class ProfileView(View):
             data=request.POST
             )
         context = {
+            'return_main': True,
             'form': form,
             'title': 'Profile',
             'title_form': f"User: {request.user.full_name}'s Profile",

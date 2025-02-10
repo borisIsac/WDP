@@ -15,6 +15,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#SITE_DOMAIN = insert a domain here
+SITE_DOMAIN = 'http://localhost:8000'
 
 # Application definition
 

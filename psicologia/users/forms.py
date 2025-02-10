@@ -1,12 +1,26 @@
 import datetime
 from django import forms
+from .models import *
 
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)    
 
 
-class RegisterFormUser(forms.Form):
+class RegisterFormUser(forms.ModelForm):
+    class Meta:
+        model = CustomUser  # Your custom user model
+        fields = [
+            'email', 
+            'password', 
+            'confirm_password',
+            'full_name', 
+            'phone', 
+            'username', 
+            'birthday', 
+            'gender', 
+            'country']
+
     GENDER_LIST = [
         ("SELECT", "Select"),
         ("MALE", "Male"),
@@ -44,8 +58,33 @@ class RegisterFormCompanie(forms.Form):
     payment_method = forms.CharField(max_length=100, required=False)
     
 
-    
 class PasswordChangeForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)
     new_password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)
     new_password_confirm = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)
+
+class ProfileUserUpdateDataForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser 
+        fields = [
+            'email',   
+            'full_name',   
+            'phone',   
+            'username',   
+            'birthday',   
+            'gender',   
+            'country'  
+            ]  
+        
+
+class ProfileBuisnesUpdateDataForm(forms.ModelForm):
+    class Meta:
+        model = BuisnesUser
+        fields = [
+            'email',   
+            'companie_name',   
+            'billing_address',   
+            'shipping_address',   
+            'payment_method',   
+            'phone',   
+            ]  

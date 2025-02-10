@@ -8,6 +8,12 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register_user/', RegisterView.as_view(), name='register_user'),
+    path ('profile/', ProfileView.as_view(), name='profile'),
+
+
+
+    path('activate/<uidb64>/<token>/', RegisterView.as_view(), name='activate_account'),
+
 
     path('password_change/', auth_views.PasswordChangeView.as_view(success_url='/users/password_change/done/'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
@@ -41,4 +47,8 @@ urlpatterns = [
             template_name="users/password_reset_complete.html"
         ),
         name='password_reset_complete'),    
+
+    path('activation_sended/',
+        activation_sended,
+        name='activation_sended'),
 ]

@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #Libraries
+    'django_recaptcha',
+
     #my_apps
     'users',
     'main',
@@ -133,4 +136,9 @@ EMAIL_HOST_USER = EMAIL_SENDER
 EMAIL_HOST_PASSWORD = EMAIL_SENDER_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'                                                                       
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'         
+
+#recaptcha
+
+RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY
+RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY

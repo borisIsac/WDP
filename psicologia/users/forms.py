@@ -1,6 +1,7 @@
 import datetime
 from django import forms
 from .models import *
+from django_recaptcha.fields import ReCaptchaField
 
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True)
@@ -21,11 +22,12 @@ class RegisterFormUser(forms.ModelForm):
             'gender', 
             'country']
 
-    GENDER_LIST = [
-        ("SELECT", "Select"),
-        ("MALE", "Male"),
-        ("FAMELE", "Female")
-    ]
+    class Gender(models.TextChoices):
+        SELECT = "Select", "Select"
+        MALE = "Male", "Male"
+        FEMALE = "Female", "Female"
+
+    captcha = ReCaptchaField()
         
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)
@@ -42,7 +44,7 @@ class RegisterFormUser(forms.ModelForm):
     )
     
     gender = forms.ChoiceField(
-        choices = GENDER_LIST,
+        choices = Gender.choices,
         required=False
         )
     country = forms.CharField(max_length=100, required=False)
@@ -56,6 +58,8 @@ class RegisterFormCompanie(forms.Form):
     billing_address = forms.CharField(max_length=100, required=True)
     shipping_address = forms.CharField(max_length=20, required=False)
     payment_method = forms.CharField(max_length=100, required=False)
+    phone = forms.CharField(max_length=20, required=False)
+    captcha = ReCaptchaField()
     
 
 class PasswordChangeForm(forms.Form):

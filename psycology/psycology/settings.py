@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'psycology.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': PSQL_DB,              
@@ -86,8 +86,18 @@ DATABASES = {
         'HOST': '127.0.0.1',          
         'PORT': '5432',               
     }
-}
+}'''
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': PSQL_DB,              
+        'USER': PSQL_USER,          
+        'PASSWORD': PSQL_USER_PASSWORD, 
+        'HOST': 'database',          
+        'PORT': '5432',               
+    }
+}
 
 
 

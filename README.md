@@ -187,3 +187,38 @@ Navigate to Your Django Project
     Your position should be in the same level with file "manage.py". then Run server with command "python manage.py runserver" or
     "python3 manage.py runserver" if you use linux.
     Open browser and insert a next link http://127.0.0.1:8000/ this link should redirect you to index page
+
+
+
+
+
+# Docker and Docker-Compose
+Before you start, install Docker and Docker Compose. Download the installation file from the official Docker website: https://www.docker.com/. Click on Download Docker Desktop, select your operating system, and click the download button.
+
+The installation process is very easy, so I won’t describe it in detail. 😊
+
+Don't forget that on Windows, Docker Desktop should be running before you start working with it.
+
+When you clone the project from GitHub, it contains three important files at the same level as manage.py:
+
+-   Dockerfile – Describes, step by step, what Docker should do.
+-   docker-compose.yml – Manages communication between two containers and runs them.
+
+# Steps to Run the Project with Docker
+
+Open a terminal and navigate into the psychology folder.
+
+Run ls (Linux/macOS) or dir (Windows) to confirm that your current working directory (PWD) is at the same level as manage.py.
+
+In the terminal, run:
+
+    docker compose up
+Wait while Docker downloads all dependencies automatically.
+
+Once the setup is complete, open a browser and go to:
+
+http://127.0.0.1:8000/
+
+This should redirect you to the index page. 🚀
+
+

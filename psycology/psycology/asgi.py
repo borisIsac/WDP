@@ -1,5 +1,5 @@
 """
-ASGI config for psicologia project.
+ASGI config for psycology project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'psicologia.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'psycology.settings')
 
 application = get_asgi_application()

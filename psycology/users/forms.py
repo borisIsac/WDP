@@ -80,6 +80,13 @@ class ProfileUserUpdateDataForm(forms.ModelForm):
             'country'  
             ]  
         
+    birthday = forms.DateField(
+        widget=forms.SelectDateWidget(
+            empty_label=("Choose Year", "Choose Month", "Choose Day"),
+            years=range(1950, datetime.date.today().year + 1)
+        )
+    )
+        
 
 class ProfileBuisnesUpdateDataForm(forms.ModelForm):
     class Meta:

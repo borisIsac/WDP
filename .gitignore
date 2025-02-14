@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
@@ -169,3 +168,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+*/secret_files/

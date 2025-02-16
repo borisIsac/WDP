@@ -2,6 +2,7 @@ from pathlib import Path
 from secret_files.secret_data import *
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,7 +16,8 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
 
 #SITE_DOMAIN = insert a domain here
 SITE_DOMAIN = 'http://localhost:8000'
@@ -36,7 +38,6 @@ INSTALLED_APPS = [
     #Libraries
     'django_recaptcha',
 
-
     #my_apps
     'users',
     'main',
@@ -53,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'psicologia.urls'
+ROOT_URLCONF = 'psycology.urls'
 
 TEMPLATES = [
     {
@@ -71,13 +72,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'psicologia.wsgi.application'
+WSGI_APPLICATION = 'psycology.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': PSQL_DB,              
@@ -86,8 +87,18 @@ DATABASES = {
         'HOST': '127.0.0.1',          
         'PORT': '5432',               
     }
-}
+}'''
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': PSQL_DB,              
+        'USER': PSQL_USER,          
+        'PASSWORD': PSQL_USER_PASSWORD, 
+        'HOST': 'database',          
+        'PORT': '5432',               
+    }
+}
 
 
 

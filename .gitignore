@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
@@ -172,3 +171,4 @@ cython_debug/
 
 
 *secret_files/
+

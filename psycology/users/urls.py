@@ -1,23 +1,26 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from .views import *
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
+
+
 
 app_name = 'users'
 
 urlpatterns = [
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView().as_view(), name="token_verify"),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register_user/', RegisterView.as_view(), name='register_user'),
     path ('profile/', ProfileView.as_view(), name='profile'),
-
     path('activate/<uidb64>/<token>/', RegisterView.as_view(), name='activate_account'),
-
-
     path('password_change/', auth_views.PasswordChangeView.as_view(success_url='/users/password_change/done/'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 
-    #PASSWORD RESET
-
+    # PASSWORD RESET
     path('password-reset/',
         auth_views.PasswordResetView.as_view(
             template_name="users/password_reset_form.html",
@@ -46,7 +49,5 @@ urlpatterns = [
         ),
         name='password_reset_complete'),    
 
-    path('activation_sended/',
-        activation_sended,
-        name='activation_sended'),
+    path('activation_sended/', activation_sended, name='activation_sended'),
 ]

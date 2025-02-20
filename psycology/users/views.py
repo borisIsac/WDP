@@ -240,3 +240,9 @@ class ProfileView(View):
             return redirect('main:index')
         form.add_error(None, 'Something is wrong in your data. Data has not been updated')
         return render(request, 'user_form_template.html', context)
+    
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import MyTokenObtainPairSerializer
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

@@ -1,3 +1,7 @@
+from .serializers import NoteTokenSerializer, CustomUserRegistrationSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -31,6 +35,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
+from rest_framework.permissions import AllowAny
 
 
 def activation_sended(request):
@@ -58,7 +63,57 @@ def send_activate_link_by_email(user, request):
     from_email = settings.EMAIL_HOST_USER
     send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_notes(request):
+    user = request.user
+    notes = NoteToken.objects.filter(owner = user)
+    serializer = NoteTokenSerializer(notes, many=True)
 
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def is_authenticated(request):
+    result = {
+        'authenticated': True
+    }
+    return Response(result)
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        response = Response()
+
+        response.data = {'success':True}
+
+        response.delete_cookie(
+            'access_token',
+            path='/',
+            samesite='None'
+        )
+        response.delete_cookie(
+            'refresh_token',
+            path='/',
+            samesite='None'
+        )
+        return response
+    except:
+        return Response({'success':False})
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def sign_up(request):
+
+    serializer = CustomUserRegistrationSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+    return Response(serializer.errors, status=400)
 
 class LoginView(View):
     def get(self, request):
@@ -241,8 +296,81 @@ class ProfileView(View):
         form.add_error(None, 'Something is wrong in your data. Data has not been updated')
         return render(request, 'user_form_template.html', context)
     
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .serializers import MyTokenObtainPairSerializer
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+class CustomTokenObtainPairView(TokenObtainPairView):
+    #serializer_class = MyTokenObtainPairSerializer()
+    
+    def post(self, request, *args, **kwargs):
+        try:
+        
+            response = super().post(request, *args, **kwargs)
+            tokens = response.data
+
+            access_token = tokens['access']
+            refresh_token = tokens['refresh']
+
+            res = Response()
+
+            res.data = {
+                'success': True
+            }
+
+            res.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
+                )
+            
+            res.set_cookie(
+                key="refresh_token",
+                value=refresh_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
+                )
+            
+            return res
+        
+        except:
+        
+            return Response({'success': False})
+
+class CustomRefreshTokenView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+       
+        try:
+        
+            refresh_token = request.COOKIES.get('refresh_token')          
+
+            request.data['refresh'] = refresh_token
+            
+            response =  super().post(request, *args, **kwargs)
+            
+            tokens = response.data
+            
+            access_token = tokens['access']
+            
+            res = Response()
+            res.data = {'refreshed' : True}
+
+            res.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
+            )
+        
+            return res
+        
+        except:
+        
+            return Response({'refreshed' : False})
+        

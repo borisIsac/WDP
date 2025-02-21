@@ -1,17 +1,20 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from .views import *
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-
-
-
+from rest_framework_simplejwt.views import  TokenVerifyView
 
 app_name = 'users'
 
 urlpatterns = [
-    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', CustomRefreshTokenView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView().as_view(), name="token_verify"),
+    path('notes/', get_notes, name='get_notes'),
+    path('logout/', logout, name = 'logout'),
+    path('is_authenticated/', is_authenticated, name="is_authenticated"),
+    path('sign_up/', sign_up, name="sign_up"),
+
+
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register_user/', RegisterView.as_view(), name='register_user'),

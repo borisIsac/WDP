@@ -20,8 +20,6 @@
     width: 21%; 
 }
 
-
-
 .picture_part {
     position: absolute; /* Абсолютное позиционирование */
     top: 0;
@@ -36,5 +34,25 @@
     height: 100%; /* Изображение растягивается по высоте */
     /*object-fit: cover; /* Сохраняет пропорции изображения, обрезая лишнюю часть */
 }
+
+.form-group-col{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.my_custom_col{
+    width: 49%;
+}
+
+.modal-content{
+    background-color: rgb(189, 212, 223);
+}
+
+.boris{
+    margin: 0 auto;
+    width: 100%;
+}
+
 
 

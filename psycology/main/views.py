@@ -11,3 +11,6 @@ def index(request):
     except:
         print('No one Users')
     return render(request, 'index.html')
+
+def site_under_construction(request):
+    return render(request, 'page_under_construction.html')

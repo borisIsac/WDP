@@ -27,6 +27,8 @@ class RegisterFormUser(forms.ModelForm):
         MALE = "Male", "Male"
         FEMALE = "Female", "Female"
 
+    
+
     captcha = ReCaptchaField()
         
     email = forms.EmailField(required=True)
@@ -45,8 +47,10 @@ class RegisterFormUser(forms.ModelForm):
     
     gender = forms.ChoiceField(
         choices = Gender.choices,
-        required=False
+        required=False,
+        initial=Gender.SELECT
         )
+    
     country = forms.CharField(max_length=100, required=False)
         
 
@@ -77,7 +81,7 @@ class ProfileUserUpdateDataForm(forms.ModelForm):
             'username',   
             'birthday',   
             'gender',   
-            'country'  
+            'country',
             ]  
         
     birthday = forms.DateField(
@@ -85,6 +89,16 @@ class ProfileUserUpdateDataForm(forms.ModelForm):
             empty_label=("Choose Year", "Choose Month", "Choose Day"),
             years=range(1950, datetime.date.today().year + 1)
         )
+    )
+
+    password = forms.CharField(
+         widget=forms.PasswordInput(
+             attrs={
+                 'placeholder': 'Enter your password to confirm changes', 
+                 'autocomplete': 'new-password'
+                 }
+            ),
+        required=True,
     )
         
 
@@ -99,3 +113,12 @@ class ProfileBuisnesUpdateDataForm(forms.ModelForm):
             'payment_method',   
             'phone',   
             ]  
+        
+
+
+class ConfirationApplyData(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['password']
+
+    

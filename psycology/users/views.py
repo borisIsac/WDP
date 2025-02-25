@@ -69,8 +69,6 @@ def get_notes(request):
     user = request.user
     notes = NoteToken.objects.filter(owner = user)
     serializer = NoteTokenSerializer(notes, many=True)
-
-
     return Response(serializer.data)
 
 
@@ -270,6 +268,7 @@ class ProfileView(View):
             'title': 'My Profile',
             'title_form': f"User: {request.user.full_name}'s Profile",
             'button_submit': 'Update',
+            "popup_button": "Apply"
         }
         return render(request, 'user_form_template.html', context)
 
@@ -281,18 +280,21 @@ class ProfileView(View):
         context = {
             'return_main': True,
             'form': form,
-            'title': 'Profile',
+            'title': 'My Profile',
             'title_form': f"User: {request.user.full_name}'s Profile",
             'button_submit': 'Update',
+            "popup_button": "Apply"
         }
         if form.is_valid():
             cd = form.cleaned_data
-            request.user.full_name = cd['full_name']
-            request.user.phone = cd['phone']
-            request.user.username = cd['username']
-            request.user.birthday = cd['birthday']
-            form.save()
-            return redirect('main:index')
+            if check_password(cd['password'], request.user.password):
+                request.user.full_name = cd['full_name']
+                request.user.phone = cd['phone']
+                request.user.username = cd['username']
+                request.user.birthday = cd['birthday']
+                form.save()
+                return redirect('main:index')
+            form.add_error(None,'Password is incorrect')
         form.add_error(None, 'Something is wrong in your data. Data has not been updated')
         return render(request, 'user_form_template.html', context)
     

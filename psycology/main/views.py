@@ -19,10 +19,17 @@ def site_under_construction(request):
 def contact_request(request):
     if request.method == 'POST':
         form = ContactRequestForm(request.POST)
+        context = {
+            'form': form,
+            'success': 'Contact request sent successfully'
+        }
         if form.is_valid():
+            cd = form.cleaned_data
+            request.form.full_name = cd['full_name']
+            request.form.email = cd['email']
             form.save()
-            return render(request, "contact_form.html", {"form": ContactRequestForm(), "success": True})
+            return render(request, "contact_form.html", context)
     else:
         form = ContactRequestForm()
     
-    return render(request, 'contact_form.html', {'form':form})
+    return render(request, 'contact_form.html', {'form': form})

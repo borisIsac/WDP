@@ -87,27 +87,9 @@
                         </div>
                         <div class="modal-body">
                             <form>
-                                <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input type="name" class="form-control" id="name" aria-describedby="Full Name">
-                                </div>
-                                <div class="form-group form-group-col">
-                                    <div class="left_col my_custom_col">
-                                        <label for="exampleInputEmail1">Email address:</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                    </div>
-                                    <div class="right_col my_custom_col">
-                                        <label for="exampleInputEmail1">Subject:</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                    </div>
-                                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                                </div>
-                                <div class="form-group">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                    <label for="msg" class="form-label mt-4">Message:</label>
-                                    <textarea class="form-control" id="msg" rows="5"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary submit_button">Send Message</button>
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit" class="btn btn-primary submit_button">{{ sb }}</button>
                             </form>
                         </div>
                     </div>

@@ -14,9 +14,6 @@ def index(request):
     return render(request, 'index.html')
 
 def site_under_construction(request):
-    return render(request, 'page_under_construction.html')
-
-def contact_request(request):
     if request.method == 'POST':
         form = ContactRequestForm(request.POST)
         context = {
@@ -28,8 +25,11 @@ def contact_request(request):
             request.form.full_name = cd['full_name']
             request.form.email = cd['email']
             form.save()
-            return render(request, "contact_form.html", context)
+            return render(request, "page_under_construction.html", context)
     else:
         form = ContactRequestForm()
-    
-    return render(request, 'contact_form.html', {'form': form})
+        context = {
+            'form': form,
+            'sb': 'blaaaaa'
+        }
+    return render(request, 'page_under_construction.html', context)

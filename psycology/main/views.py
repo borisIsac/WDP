@@ -30,6 +30,6 @@ def site_under_construction(request):
         form = ContactRequestForm()
         context = {
             'form': form,
-            'sb': 'blaaaaa'
+            'submit': 'Submit'
         }
     return render(request, 'page_under_construction.html', context)

@@ -93,7 +93,9 @@ WSGI_APPLICATION = 'psycology.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 #'''---Prod settings---
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -105,7 +107,6 @@ DATABASES = {
     }
 }
 #'''
-
 
 '''---DOCKER SETTINGS---
 DATABASES = {

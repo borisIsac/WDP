@@ -3,19 +3,33 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
+from rest_framework import generics
+from users.permissions import IsSuperuser
 
-class BookViewSet(APIView):
+print(IsSuperuser.has_permission)
+
+class BookViewSet(generics.ListAPIView):
+    '''
+    print all book_list.
+    return JSON
+    '''
+    queryset = Books.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+
+class NewBookRegisterView(generics.CreateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    def get(self, request):
-        books = Books.objects.all()
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        serializer = BookSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-        
+
+    queryset = Books.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSuperuser]
+   
+class UpdateBookRegisterView(generics.RetrieveUpdateAPIView):
+    queryset = Books.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSuperuser]
+
+    def get_object(self):
+        return self.request.user

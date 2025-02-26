@@ -28,8 +28,6 @@ class UserSerializer(serializers.ModelSerializer):
         create new user instance, given the validated data
         '''     
         username = validated_data.get('email', validated_data['email'])
-        print(username)
-
         
         user = User.objects.create_user(
             email=validated_data['email'],
@@ -46,7 +44,6 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         password = validated_data.pop("password", None)
         for attr, value in validated_data.items():
-            print('!!!!',attr, value)
             setattr(instance, attr, value)
         if password:
             instance.set_password(password)

@@ -13,19 +13,19 @@ class ContactRequestForm(forms.Form):
     full_name = forms.CharField(
         label='Nome:',
         max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-control white-border', 'placeholder': 'Insira o seu nome'})
+        widget=forms.TextInput(attrs={'class': 'form-control white-border', 'placeholder': 'Insira o seu nome', 'style': 'border-radius: 8px;'})
         )
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'form-control white-border', 'placeholder': 'Insira o seu email'})
+        widget=forms.EmailInput(attrs={'class': 'form-control white-border', 'placeholder': 'Insira o seu email', 'style': 'border-radius: 8px;'})
     )
     subject = forms.ChoiceField(
         label='Assunto:',
         choices = Subjects.choices,
         required=True,
         initial= Subjects.SELECT,
-        widget=forms.Select(attrs={'class': 'form-control white-border'})
+        widget=forms.Select(attrs={'class': 'form-control white-border', 'style': 'border-radius: 8px;'})
     )
     message = forms.CharField(
         label='Mensagem:',
-        widget=forms.Textarea(attrs={'class': 'form-control white-border', 'rows': 5, 'cols': 40, 'placeholder': 'Escreva aqui a sua mensagem'})
+        widget=forms.Textarea(attrs={'class': 'form-control white-border', 'rows': 5, 'cols': 40, 'placeholder': 'Escreva aqui a sua mensagem', 'style': 'border-radius: 8px;'})
     )

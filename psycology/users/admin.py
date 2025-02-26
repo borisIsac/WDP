@@ -31,5 +31,15 @@ class BuisnesUserAdmin(admin.ModelAdmin):
             'payment_method'
         ]
 
+
+class NotesTokenAdmin(admin.ModelAdmin):
+    model = NoteToken
+    list_display =  [
+            'description',
+            'owner'
+            ]
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(BuisnesUser, BuisnesUserAdmin)
+admin.site.register(NoteToken, NotesTokenAdmin)

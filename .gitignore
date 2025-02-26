@@ -5,6 +5,8 @@ __pycache__/
 # C extensions
 *.so
 
+staticfiles
+
 # Distribution / packaging
 .Python
 build/
@@ -169,6 +171,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-
 *secret_files/
-
+*staticfiles

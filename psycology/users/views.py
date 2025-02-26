@@ -1,40 +1,32 @@
+from .serializers import NoteTokenSerializer, UserSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 from django.conf import settings
 from django.shortcuts import render
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views import View
-from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-from django.db.utils import IntegrityError
-from django.contrib.auth.hashers import make_password, check_password
 from .forms import *
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import PasswordResetView
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic.edit import CreateView
-from .forms import *
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponse
-from django.utils.http import urlsafe_base64_decode
-from .models import *
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.contrib.auth import get_user_model
+from rest_framework import generics
 
 
 def activation_sended(request):
     return render(request, 'users/activation_sended.html')
+
 
 def send_activate_link_by_email(user, request):
     """
@@ -59,184 +51,152 @@ def send_activate_link_by_email(user, request):
     send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
 
 
-
-class LoginView(View):
-    def get(self, request):
-        form = LoginForm()
-        context = {
-            'return_main': True,
-            'form': form,
-            'title': 'Login',
-            'title_form': 'User Login',
-            'button_submit': 'Login',
-            'is_get_method': request.method == 'GET',
-            'forget_password': True,
-        }
-        return render(request, 'user_form_template.html', context)
-
-    def post(self, request):
-        """
-        Post method to registration new user
-        """
-        # Get the posted form
-        form = LoginForm(data=request.POST)
-        context = {
-            'return_main': True,
-            'form': form,
-            'title': 'Login',
-            'title_form': 'User Login',
-            'button_submit': 'Login',
-            'forget_password': True,
-        }
-
-        if form.is_valid():
-            cd = form.cleaned_data
-            email = cd['email']
-            psw = cd['password']
-            user = authenticate(username=email, password=psw)
-            if user is not None:
-                if not user.is_active:
-                    form.add_error('email', 'User is not active. Please active your account')
-                    return render(request, 'user_form_template.html', context)
-                login(request, user)
-                return redirect('main:index')
-            else:
-                form.add_error('email', 'Email and password do not match')
-        return render(request, 'user_form_template.html', context)
-
-class LogoutView(View):
-    def get(self, request):
-        # Log out the user
-        logout(request)
-        # Redirect to the login page or any other page
-        return redirect('main:index')  
-
-class RegisterView(View):
-    '''
-    registration class
-    '''
-
-    def password_validation(self, password1, password2):
-        '''
-        password validation
-        :param password1:
-        :param password2:
-        :return: boolean
-        '''
-        if password1 != password2:
-            return False
-        return True
-
-    def get(self, request, uidb64=None, token=None):
-        '''
-        GET method for rendering registration form and handling activation
-        :param request: HTTP request object
-        :param uidb64: encoded user ID for activation
-        :param token: token for validating activation link
-        :return: rendered page with registration form or activation logic
-        '''
-        # If UID and token are provided, handle account activation
-        if uidb64 and token:
-            return self.activate_account(request, uidb64, token)
-
-        # Otherwise, display registration form
-        form = RegisterFormUser()
-        context = {
-            'return_main': True,
-            'title': 'Registration',
-            'title_form': 'Register New User',
-            'form': form,
-            'button_submit': 'Register'
-        }
-        return render(request, 'user_form_template.html', context)
-
-    def activate_account(self, request, uidb64, token):
-        '''
-        Activates user account if token and UID are valid
-        :param request: HTTP request object
-        :param uidb64: base64 encoded user ID
-        :param token: activation token
-        :return: redirect to login page or error message
-        '''
+class CustomTokenObtainPairView(TokenObtainPairView):
+    #serializer_class = MyTokenObtainPairSerializer()
+    
+    def post(self, request, *args, **kwargs):
         try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = get_object_or_404(CustomUser, pk=uid)
-        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-            user = None
+        
+            response = super().post(request, *args, **kwargs)
+            tokens = response.data
 
-        if user is not None and default_token_generator.check_token(user, token):
-            user.is_active = True
-            user.save()
-            return redirect('users:login')  # Redirect to login page after activation
-        else:
-            return HttpResponse("Invalid or expired activation link.", status=400)
+            access_token = tokens['access']
+            refresh_token = tokens['refresh']
 
-    def post(self, request):
-        form = RegisterFormUser(data=request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            if self.password_validation(cd['password'], cd['confirm_password']):
-                try:
-                    new_user = CustomUser.objects.create_user(
-                        email=cd['email'],
-                        password=cd['password'],
-                        full_name=cd['full_name'],
-                        username=cd['username'],
-                        birthday=cd['birthday'],
-                        gender=cd['gender'],
-                        country=cd['country'],
-                        phone=cd['phone']
-                    )
-                    #send activation email
-                    send_activate_link_by_email(new_user, request)
-                    return redirect('users:activation_sended')
-                except IntegrityError:
-                    form.add_error('email', 'A user with that email already exists.')
-        context = {
-            'return_main': True,
-            "error_msg": "something is wrong in your registration",
-            'title': 'Registration',
-            'title_form': 'Registration new User',
-            'form': form,
-            'button_submit': 'Register'
-        }
-        return render(request, 'user_form_template.html', context)
+            res = Response()
 
-class ProfileView(View):
-    '''
-    Update profile datas User
-    '''
-    def get(self, request):
-        form = ProfileUserUpdateDataForm(instance=request.user)
-        context = {
-            'return_main': True,
-            'change_password': True,            
-            'form': form,
-            'title': 'My Profile',
-            'title_form': f"User: {request.user.full_name}'s Profile",
-            'button_submit': 'Update',
-        }
-        return render(request, 'user_form_template.html', context)
+            res.data = {
+                'success': True
+            }
 
-    def post(self, request):
-        form = ProfileUserUpdateDataForm(
-            instance=request.user, 
-            data=request.POST
+            res.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
+                )
+            
+            res.set_cookie(
+                key="refresh_token",
+                value=refresh_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
+                )
+            
+            return res
+        
+        except:
+        
+            return Response({'success': False})
+
+
+class CustomRefreshTokenView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+       
+        try:
+        
+            refresh_token = request.COOKIES.get('refresh_token')          
+
+            request.data['refresh'] = refresh_token
+            
+            response =  super().post(request, *args, **kwargs)
+            
+            tokens = response.data
+            
+            access_token = tokens['access']
+            
+            res = Response()
+            res.data = {'refreshed' : True}
+
+            res.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path="/"
             )
-        context = {
-            'return_main': True,
-            'form': form,
-            'title': 'Profile',
-            'title_form': f"User: {request.user.full_name}'s Profile",
-            'button_submit': 'Update',
-        }
-        if form.is_valid():
-            cd = form.cleaned_data
-            request.user.full_name = cd['full_name']
-            request.user.phone = cd['phone']
-            request.user.username = cd['username']
-            request.user.birthday = cd['birthday']
-            form.save()
-            return redirect('main:index')
-        form.add_error(None, 'Something is wrong in your data. Data has not been updated')
-        return render(request, 'user_form_template.html', context)
+        
+            return res
+        
+        except:
+        
+            return Response({'refreshed' : False})
+        
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_notes(request):
+    user = request.user
+    notes = NoteToken.objects.filter(owner = user)
+    serializer = NoteTokenSerializer(notes, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def is_authenticated(request):
+    result = {
+        'authenticated': True
+    }
+    return Response(result)
+
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        response = Response()
+
+        response.data = {'success':True}
+
+        response.delete_cookie(
+            'access_token',
+            path='/',
+            samesite='None'
+        )
+        response.delete_cookie(
+            'refresh_token',
+            path='/',
+            samesite='None'
+        )
+        return response
+    except:
+        return Response({'success':False})
+
+
+'''@api_view(['POST'])
+@permission_classes([AllowAny])
+def sign_up(request):
+
+    serializer = CustomUserRegistrationSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+    return Response(serializer.errors, status=400)
+
+'''
+
+User = get_user_model()
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+

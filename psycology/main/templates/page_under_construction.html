@@ -88,10 +88,35 @@
                         <div class="modal-body">
                             <form>
                                 {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit" class="btn btn-primary submit_button">{{ sb }}</button>
+                                
+                                <div class="mb-3">
+                                    <label class="font-weight-bold">{{ form.full_name.label_tag }}</label>
+                                    {{ form.full_name }}
+                                </div>
+                        
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="font-weight-bold">{{ form.email.label_tag }}</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="font-weight-bold">{{ form.subject.label_tag }}</label>
+                                            {{ form.subject }}
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="mb-3">
+                                    <label class="font-weight-bold">{{ form.message.label_tag }}</label>
+                                    {{ form.message }}
+                                </div>
+                        
+                                <button type="submit" class="btn btn-primary submit_button">Send Message</button>
                             </form>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>

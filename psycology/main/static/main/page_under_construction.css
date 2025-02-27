@@ -20,7 +20,16 @@
     height: 100px;
 }
 .content{
-    width: 49%;    
+    width: 49%;
+    margin-top: 0 !important;    
+}
+
+.content h1 {
+    font-size: 48px;
+}
+
+.content p {
+    font-size: 20px;
 }
 
 .text_content{
@@ -145,5 +154,7 @@
     width: 100%;
 }
 
-
+@media(min-width: 1025px) and (max-width: 1366px) {
+    
+}
 

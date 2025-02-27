@@ -6,7 +6,6 @@ from .serializers import *
 from rest_framework import generics
 from users.permissions import IsSuperuser
 
-print(IsSuperuser.has_permission)
 
 class BookViewSet(generics.ListAPIView):
     '''
@@ -17,6 +16,7 @@ class BookViewSet(generics.ListAPIView):
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]
 
+
 class NewBookRegisterView(generics.CreateAPIView):
     """
     API endpoint that allows users to be viewed or edited.
@@ -26,10 +26,23 @@ class NewBookRegisterView(generics.CreateAPIView):
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated, IsSuperuser]
    
-class UpdateBookRegisterView(generics.RetrieveUpdateAPIView):
+
+class UpdateBookView(generics.RetrieveUpdateAPIView):
+
     queryset = Books.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated, IsSuperuser]
 
     def get_object(self):
-        return self.request.user
+        return generics.get_object_or_404(Books, pk=self.kwargs["pk"])
+    
+
+class GetSingleBookView(generics.RetrieveAPIView):
+
+    queryset = Books.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_object(self):
+        return generics.get_object_or_404(Books, pk=self.kwargs["pk"])
+    

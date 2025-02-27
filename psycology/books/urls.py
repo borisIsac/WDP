@@ -6,7 +6,11 @@ from django.conf.urls.static import static
 app_name = 'books'
 
 urlpatterns = [
-    path('api/v1/book_list', BookViewSet.as_view(), name='book_list'),
-    path('api/v1/book_add', NewBookRegisterView.as_view(), name='book_add'),
+    path('api/v1/book_list/', BookViewSet.as_view(), name='book_list'),
+    path('api/v1/book_add/', NewBookRegisterView.as_view(), name='book_add'),
+    path('api/v1/book/<int:pk>/', GetSingleBookView.as_view(), name='get_single_book'),
+    path('api/v1/update_book/<int:pk>/', UpdateBookView.as_view(), name='update_book'),
+
+
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

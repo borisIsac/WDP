@@ -65,7 +65,7 @@ REST_FRAMEWORK = {
         'users.authentication_backend_email.CockiesJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.AllowAny'
     ]
 }
 
@@ -93,7 +93,9 @@ WSGI_APPLICATION = 'psycology.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 #'''---Prod settings---
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -105,7 +107,6 @@ DATABASES = {
     }
 }
 #'''
-
 
 '''---DOCKER SETTINGS---
 DATABASES = {

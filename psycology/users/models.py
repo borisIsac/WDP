@@ -1,9 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractUser, Group, Permission
-
-
-
+from django_countries import countries
 
 
 class CustomUser(AbstractUser):
@@ -47,7 +45,8 @@ class CustomUser(AbstractUser):
     username = models.CharField(_("Username"), max_length=100, blank=True, null=True)
     birthday = models.DateField(_("Birthday"),default=None, blank=True, null=True)
     gender = models.CharField(_("Gender"), choices=Gender.choices, default=Gender.SELECT, max_length=10)
-    country = models.CharField(_("Country"), max_length=100, blank=True, null=True)
+    country = models.CharField(_("Country"), choices=countries, max_length=100, blank=True, null=True)
+
     #avatar = models.ImageField(_("Avatar"), '''upload_to='avatars/',''' blank=True, null=True)
 
 

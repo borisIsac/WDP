@@ -1,16 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
 
-app_name = 'books'
+#app_name = 'books'
+router = DefaultRouter()
+router.register(r'books', BookViewSet, basename='books')
 
 urlpatterns = [
-    path('api/v1/book_list/', BookViewSet.as_view(), name='book_list'),
-    path('api/v1/book_add/', NewBookRegisterView.as_view(), name='book_add'),
-    path('api/v1/book/<int:pk>/', GetSingleBookView.as_view(), name='get_single_book'),
-    path('api/v1/update_book/<int:pk>/', UpdateBookView.as_view(), name='update_book'),
-
-
-    
+    path('', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

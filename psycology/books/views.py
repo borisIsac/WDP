@@ -7,15 +7,34 @@ from rest_framework import generics
 from users.permissions import IsSuperuser
 
 
-class BookViewSet(generics.ListAPIView):
+class BookViewSet(viewsets.ModelViewSet):
     '''
     print all book_list.
     return JSON
     '''
     queryset = Books.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
+    
+    
+    def get_permissions(self):
+        """
+        Assign different permissions based on the action.
+        """
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [permissions.IsAuthenticated(), IsSuperuser()]
+        return [permissions.AllowAny()]
 
+
+    def get_object(self):
+        """
+        Get a single book by primary key.
+        """
+        return generics.get_object_or_404(self.queryset, pk=self.kwargs["pk"])
+
+
+
+
+'''
 
 class NewBookRegisterView(generics.CreateAPIView):
     """
@@ -46,3 +65,11 @@ class GetSingleBookView(generics.RetrieveAPIView):
     def get_object(self):
         return generics.get_object_or_404(Books, pk=self.kwargs["pk"])
     
+
+class DeleteBookView(generics.DestroyAPIView):
+    queryset = Books.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSuperuser]  # Only admin users can delete
+
+    def get_object(self):
+        return generics.get_object_or_404(self.queryset, pk=self.kwargs["pk"])'''

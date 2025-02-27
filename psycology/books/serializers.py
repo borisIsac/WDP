@@ -5,6 +5,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Books
         fields = [
+            'id',
             'title',
             'author',
             'description',
@@ -20,9 +21,6 @@ class BookSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             ]
-        
-    def get(self, request):
-        print('-----hello world')
 
     def create(self, validated_data):
         new_book = Books.objects.create(**validated_data)

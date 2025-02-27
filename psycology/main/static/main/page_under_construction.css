@@ -15,7 +15,9 @@
 
 .false_nb img{
     margin-top: 15%;
-    margin-left:15%;
+    margin-left: 30%;
+    width: 100px;
+    height: 100px;
 }
 .content{
     width: 49%;    
@@ -85,6 +87,16 @@
     z-index: -1; /* Помещаем изображение ниже других элементов */
 }
 
+.picture_part::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .picture_part img {
     width: 100%; /* Изображение растягивается по ширине */
     height: 100%; /* Изображение растягивается по высоте */
@@ -103,6 +115,21 @@
 
 .modal-content{
     background-color: rgb(189, 212, 223);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+}
+
+.modal-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap; /* Prevents text from wrapping */
 }
 
 .rounded-lg {

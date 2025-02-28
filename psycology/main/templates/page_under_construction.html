@@ -29,7 +29,14 @@
                     <p>O nosso site está</p>
                     <h1>Em construção</h1>
                     <p>O nosso site está a caminho para trazer-lhe conteúdos e recursos incríveis sobre desenvolvimento infantil e integração sensorial. Voltamos em breve! Até lá, siga-nos nas redes sociais ou entre em contacto connosco para mais informações.</p>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    {% if success %}
+                        <div class="alert alert-success">{{ success }}</div>
+                    {% endif %}
+
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                    <button type="button" class="btn btn-primary button-blink" data-toggle="modal" data-target="#exampleModal">
                         Avisa-me <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
                             <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
                         </svg>
@@ -73,7 +80,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content rounded-lg" style="padding: 20px;">
                         <div class="modal-header" style="border: 0;">
-                            <img src="{% static 'images/logo-black.png' %}" alt="logo" class="img-fluid" style="width: 50px; margin-right: 10px;">
+                            <img src="{% static 'images/logo-colored.png' %}" alt="logo" class="img-fluid" style="width: 50px; margin-right: 10px;">
                             <h5 class="modal-title" id="exampleModalLabel">Envie-nos uma mensagem</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -107,16 +114,15 @@
                                     <label class="font-weight-bold">{{ form.message.label_tag }}</label>
                                     {{ form.message }}
                                 </div>
+
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck">
+                                    <label class="form-check-label" for="exampleCheck">
+                                        Eu li e aceito os <a href="">termos e condições</a> e as <a href="">políticas de privacidade</a>.
+                                    </label>
+                                </div>
                         
                                 <button type="submit" class="btn btn-primary submit_button" style="border-radius: 8px;">{{ submit }}</button>
-
-                                {% if success %}
-                                    <div class="alert alert-success">{{ success }}</div>
-                                {% endif %}
-
-                                {% if error %}
-                                    <div class="alert alert-danger">{{ error }}</div>
-                                {% endif %}
                             </form>
                         </div>                        
                     </div>
@@ -124,7 +130,7 @@
             </div>
         </div>
         <div class="picture_part">
-            <img alt="bg_main" src='/static/images/bg3.png'>
+            <img alt="bg_main" src='/static/images/bg4.png'>
         </div>
     </div>
 

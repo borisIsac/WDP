@@ -10,5 +10,6 @@ router.register(r'wishlist', WishListViewSet , basename='wishlist')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('wishlist/add_book/<int:book_id>/',BookToWishlist.as_view(), name='add_book_to_wishlist')
+    path('wishlist/add_book/<int:book_id>/',BookToWishlist.as_view(), name='add_book_to_wishlist'),
+    path('wishlist/delete_book/<int:book_id>/',BookToWishlist.as_view(), name='delete_book_from_wishlist'),
 ]

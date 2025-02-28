@@ -6,6 +6,7 @@ class WishListSerializer(serializers.ModelSerializer):
         model = WishList
         fields = [
             'id',
+            'user',
             'books',
             'created_at',
             'updated_at',
@@ -17,6 +18,5 @@ class WishListSerializer(serializers.ModelSerializer):
         book = validated_data['books']
         
         new_wishlist, created = WishList.objects.get_or_create(user=request.user, books = book)
-        print(created)
         return new_wishlist
     

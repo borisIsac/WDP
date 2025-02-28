@@ -171,5 +171,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-*secret_files/
-*staticfiles
+
+static
+secret_files/
+staticfiles

@@ -47,12 +47,32 @@ class BookToWishlist(APIView):
 
     def post(self, request, book_id):
         wishlist, created = WishList.objects.get_or_create(user=request.user)
+
         book = get_object_or_404(Books, id=book_id)
 
+        
         if book in wishlist.books.all():
             return response.Response({'messege': 'book already exist in your wishlist'})
 
         wishlist.books.add(book)
-        wishlist.save()
-
+        #wishlist.save()
         return response.Response({"message": "Book added to wishlist"}, status=status.HTTP_200_OK)
+    
+    def delete(self, request, book_id):
+        
+        wishlist = get_object_or_404(WishList, user=request.user)
+
+        book = get_object_or_404(Books, id=book_id)
+
+        if book not in wishlist.books.all():
+            context = {
+                'message': 'Book does not exist in wishlist'
+            }
+            return response.Response(context,status=status.HTTP_204_NO_CONTENT)
+
+        wishlist.books.remove(book)
+        #wishlist.save()
+        context = {
+                'message': f"Book '{book}' has been eleminated"
+            }
+        return response.Response(context,status=status.HTTP_204_NO_CONTENT)

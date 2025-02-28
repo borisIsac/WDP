@@ -23,7 +23,7 @@ def site_under_construction(request):
         form = ContactRequestForm(request.POST)
         context = {
             'form': form,
-            'success': 'Contact request sent successfully'
+            'success': 'Mensagem enviada com sucesso.'
         }
         if form.is_valid():
             cd = form.cleaned_data
@@ -48,7 +48,7 @@ def site_under_construction(request):
                     subject=email_subject,
                     body=email_body,
                     from_email=EMAIL_SENDER,
-                    to=EMAIL_SENDER,
+                    to=[EMAIL_SENDER],
                     reply_to=[email]
                 )
 

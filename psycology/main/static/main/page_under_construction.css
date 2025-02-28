@@ -178,7 +178,7 @@
 
 @media (min-width: 1025px) and (max-width: 1550px) {
     .my_container {
-        margin-top: 120px;
+        margin-top: 100px;
     }
     
     .content h1 {
@@ -191,6 +191,12 @@
 
     .content button {
         width: 60%;
+    }
+
+    .alert {
+        margin-bottom: 0;
+        font-size: 16px;
+        padding: .5rem 1rem;
     }
 
     .media_social {

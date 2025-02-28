@@ -7,10 +7,11 @@ class WishList(models.Model):
     class Meta:
         verbose_name = "WishList"
         verbose_name_plural = "WishLists"
-        unique_together = ('user',)
+        #unique_together = ('user',)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="wishlist")
-    books = models.ManyToManyField(Books, blank=True, related_name="wishlisted_books")
+    #books = models.ForeignKey(Books, on_delete=models.CASCADE, null=True, blank=True, related_name="wishlisted_books")
+    books = models.ManyToManyField(Books, related_name="wishlisted_books")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

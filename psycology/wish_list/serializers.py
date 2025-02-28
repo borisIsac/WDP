@@ -6,15 +6,17 @@ class WishListSerializer(serializers.ModelSerializer):
         model = WishList
         fields = [
             'id',
-            'user',
             'books',
             'created_at',
             'updated_at',
             ]
 
     def create(self, validated_data):
-        new_wishlist = WishList.objects.create(**validated_data)
+
+        request = self.context['request']
+        book = validated_data['books']
+        
+        new_wishlist, created = WishList.objects.get_or_create(user=request.user, books = book)
+        print(created)
         return new_wishlist
     
-    def update(self, instance, validated_data):
-        return super().update(instance, validated_data)

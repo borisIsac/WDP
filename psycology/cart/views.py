@@ -1,74 +1,77 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, status, views
-from .serializers import *
+from rest_framework import viewsets, permissions, response, status, generics
+from rest_framework.views import APIView
+from users.permissions import IsSuperuser
 from .models import *
-from django.shortcuts import get_object_or_404 
-from rest_framework import response
+from .serializers import *
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
 
-class CartViewSet(viewsets.ModelViewSet):
-    serializer_class = CartSerializer
+
+
+
+class CartListViewSet(viewsets.ModelViewSet):
+    serializer_class = CartListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         """
-        Ensure users only see their own wishlist.
+        Ensure users only see their own cartlist.
         """
-        return Cart.objects.filter(user=self.request.user)
+        return CartList.objects.filter(user=self.request.user)
     
     def create(self, request, *args, **kwargs):
         book_id = self.kwargs.get('book_id')
         book = get_object_or_404(Books, id=book_id)
 
-        cart, created = Cart.objects.get_or_create(user=request.user, books = book)
+        cartlist, created = CartList.objects.get_or_create(user=request.user, books = book)
 
         if not created:
             context = {
-                'error_msg': 'A book already exist in your Cart'
+                'error_msg': 'A book already exist in your cartlist'
             }
             return response.Response(context, status=status.HTTP_200_OK)
         
-        serializer = self.get_serializer(cart)
+        serializer = self.get_serializer(cartlist)
 
         return response.Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         """
-        Set the wishlist owner to the logged-in user.
+        Set the cartlist owner to the logged-in user.
         """
         serializer.save(user=self.request.user)
 
-class BookTocart(views.APIView):
+class BookToCartlist(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, book_id):
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        cartlist, created = CartList.objects.get_or_create(user=request.user)
 
         book = get_object_or_404(Books, id=book_id)
 
         
-        if book in cart.books.all():
-            return response.Response({'messege': 'book already exist in your cart'})
+        if book in cartlist.books.all():
+            return response.Response({'messege': 'book already exist in your wishlist'})
 
-        cart.books.add(book)
+        cartlist.books.add(book)
         #wishlist.save()
-        return response.Response({"message": "Book added to cart"}, status=status.HTTP_200_OK)
+        return response.Response({"message": "Book added to cartlist"}, status=status.HTTP_200_OK)
     
     def delete(self, request, book_id):
         
-        cart = get_object_or_404(Cart, user=request.user)
+        cartlist = get_object_or_404(CartList, user=request.user)
 
         book = get_object_or_404(Books, id=book_id)
 
-        if book not in cart.books.all():
+        if book not in cartlist.books.all():
             context = {
-                'message': 'Book does not exist in cart'
+                'message': 'Book does not exist in cartlist'
             }
             return response.Response(context,status=status.HTTP_204_NO_CONTENT)
 
-        cart.books.remove(book)
-        #wishlist.save()
+        cartlist.books.remove(book)
+        #cartlist.save()
         context = {
                 'message': f"Book '{book}' has been eleminated"
             }

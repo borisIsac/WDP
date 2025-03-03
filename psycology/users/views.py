@@ -1,4 +1,5 @@
 from .serializers import NoteTokenSerializer, UserSerializer
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -170,26 +171,12 @@ def logout(request):
         return Response({'success':False})
 
 
-'''@api_view(['POST'])
-@permission_classes([AllowAny])
-def sign_up(request):
-
-    serializer = CustomUserRegistrationSerializer(data=request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-
-    return Response(serializer.errors, status=400)
-
-'''
-
 User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsNotAuthenticated, AllowAny]
+    permission_classes = [AllowAny, IsNotAuthenticated]
 
 
 class UserProfileView(generics.RetrieveUpdateAPIView):

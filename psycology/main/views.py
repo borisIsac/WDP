@@ -29,7 +29,7 @@ def index(request):
 #ToDo Google API
 
 # Google Sheets logic
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join('secret_files', '.env'))
 json_path = os.getenv('CLIENT_SECRET')
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']

@@ -29,3 +29,8 @@ class ContactRequestForm(forms.Form):
         label='Mensagem:',
         widget=forms.Textarea(attrs={'class': 'form-control white-border', 'rows': 5, 'cols': 40, 'placeholder': 'Escreva aqui a sua mensagem', 'style': 'border-radius: 8px;'})
     )
+    accept_terms = forms.BooleanField(
+        label='',
+        required=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'exampleCheck'})
+    )

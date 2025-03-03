@@ -116,10 +116,11 @@
                                 </div>
 
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck">
+                                    {{ form.accept_terms }}  <!-- Checkbox field -->
                                     <label class="form-check-label" for="exampleCheck">
-                                        Eu li e aceito os <a href="">termos e condições</a> e as <a href="">políticas de privacidade</a>.
+                                        Eu li e aceito os <a href="#">termos e condições</a> e as <a href="#">políticas de privacidade</a>.
                                     </label>
+                                    {{ form.accept_terms.errors }}  <!-- Show errors if not checked -->
                                 </div>
                         
                                 <button type="submit" class="btn btn-primary submit_button" style="border-radius: 8px;">{{ submit }}</button>

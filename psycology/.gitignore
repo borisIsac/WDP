@@ -5,3 +5,7 @@
 __pycache__/
 
 secret_files/
+
+.env
+
+*.json

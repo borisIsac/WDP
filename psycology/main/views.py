@@ -166,7 +166,7 @@ def site_under_construction(request):
                 print(f"An error occurred with Google Sheets: {e}")
 
 
-            email_subject = f'Novo Contacto Sobre: {subject}'
+            email_subject = f'Novo Formulário Preenchido'
 
             email_body = render_to_string('emails/contact_email.html', {
                 'full_name': full_name,

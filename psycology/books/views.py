@@ -5,6 +5,9 @@ from .models import *
 from .serializers import *
 from rest_framework import generics
 from users.permissions import IsSuperuser
+from django.shortcuts import get_object_or_404
+from wish_list.models import *
+
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -30,46 +33,4 @@ class BookViewSet(viewsets.ModelViewSet):
         Get a single book by primary key.
         """
         return generics.get_object_or_404(self.queryset, pk=self.kwargs["pk"])
-
-
-
-
-'''
-
-class NewBookRegisterView(generics.CreateAPIView):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated, IsSuperuser]
-   
-
-class UpdateBookView(generics.RetrieveUpdateAPIView):
-
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated, IsSuperuser]
-
-    def get_object(self):
-        return generics.get_object_or_404(Books, pk=self.kwargs["pk"])
     
-
-class GetSingleBookView(generics.RetrieveAPIView):
-
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def get_object(self):
-        return generics.get_object_or_404(Books, pk=self.kwargs["pk"])
-    
-
-class DeleteBookView(generics.DestroyAPIView):
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated, IsSuperuser]  # Only admin users can delete
-
-    def get_object(self):
-        return generics.get_object_or_404(self.queryset, pk=self.kwargs["pk"])'''

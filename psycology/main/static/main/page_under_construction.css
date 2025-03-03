@@ -256,10 +256,59 @@
     }
 
     .image_content {
-        max-width: 30%;
+        max-width: 0%;
+    }
+
+    .alert {
+        font-size: small;
+    }
+
+    .modal-header {
+        padding: 0 !important;
+    }
+
+    .modal-header img {
+        width: 35px !important;
+    }
+
+    .modal-header h5 {
+        font-size: medium;
+        margin-left: 5px;
+    }
+
+    .close {
+        padding-right: 4px !important;
+    }
+
+    .form-control {
+        padding: .15rem .75rem !important;
+    }
+
+    form {
+        margin-top: 5px !important;
     }
 
     form label {
-        font-size: medium;
+        font-size: small;
+        margin-bottom: 5px !important;
+    }
+
+    form input {
+        height: 30px !important;
+        font-size: 13px !important;
+    }
+
+    form select {
+        height: 30px !important;
+        font-size: 13px !important;
+    }
+
+    form textarea {
+        font-size: 13px !important;
+        height: calc(3 * 1.2em);
+    }
+
+    form button {
+        font-size: 14px !important;
     }
 }

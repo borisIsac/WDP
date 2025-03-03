@@ -108,9 +108,9 @@
 }
 
 .picture_part img {
-    width: 100%; /* Изображение растягивается по ширине */
-    height: 100%; /* Изображение растягивается по высоте */
-    /*object-fit: cover; /* Сохраняет пропорции изображения, обрезая лишнюю часть */
+    width: 100vw; /* Изображение растягивается по ширине */
+    height: 100vh; /* Изображение растягивается по высоте */
+    object-fit: cover;
 }
 
 .form-group-col{
@@ -250,7 +250,7 @@
         width: 80%;
     }
 
-    .media_social svg {
+    .media_social svg, .media_social img {
         width: 14px;
         height: 14px;
     }

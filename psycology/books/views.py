@@ -1,12 +1,9 @@
 from rest_framework import viewsets, permissions
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from .models import *
 from .serializers import *
 from .permissions import *
 from rest_framework import generics
 from users.permissions import IsSuperuser
-from django.shortcuts import get_object_or_404
 from wish_list.models import *
 
 

@@ -6,25 +6,20 @@ from rest_framework_simplejwt.views import  TokenVerifyView
 app_name = 'users'
 
 urlpatterns = [
-    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', CustomRefreshTokenView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView().as_view(), name="token_verify"),
-    path('notes/', get_notes, name='get_notes'),
-    path('logout/', logout, name = 'logout'),
-    path('is_authenticated/', is_authenticated, name="is_authenticated"),
-    path('sign_up/', sign_up, name="sign_up"),
+    path('users/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/token/refresh/', CustomRefreshTokenView.as_view(), name='token_refresh'),
+    path('users/token/verify/', TokenVerifyView().as_view(), name="token_verify"),
+    path('users/notes/', get_notes, name='get_notes'),
+    path('users/logout/', logout, name = 'logout'),
+    path('users/is_authenticated/', is_authenticated, name="is_authenticated"),
+    path('users/signup/', RegisterView.as_view(), name='user_register'),
+    path('users/profile/', UserProfileView.as_view(), name='user_profile'),
 
-
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('register_user/', RegisterView.as_view(), name='register_user'),
-    path ('profile/', ProfileView.as_view(), name='profile'),
-    path('activate/<uidb64>/<token>/', RegisterView.as_view(), name='activate_account'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(success_url='/users/password_change/done/'), name='password_change'),
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path('users/password_change/', auth_views.PasswordChangeView.as_view(success_url='/users/password_change/done/'), name='password_change'),
+    path('users/password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 
     # PASSWORD RESET
-    path('password-reset/',
+    path('users/password-reset/',
         auth_views.PasswordResetView.as_view(
             template_name="users/password_reset_form.html",
             email_template_name="users/password_reset_email.html",
@@ -33,24 +28,24 @@ urlpatterns = [
         name='password_reset'
     ),
 
-    path('password-reset/done/',
+    path('users/password-reset/done/',
         auth_views.PasswordResetDoneView.as_view(
             template_name="users/password_reset_done.html"
         ),
         name='password_reset_done'),
 
-    path('password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    path('users/password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name="users/password_reset_confirm.html",
         success_url=reverse_lazy("users:password_reset_complete")
         ),
          name='password_reset_confirm'
     ),
 
-    path('password-reset/complete/',
+    path('users/password-reset/complete/',
         auth_views.PasswordResetCompleteView.as_view(
             template_name="users/password_reset_complete.html"
         ),
         name='password_reset_complete'),    
 
-    path('activation_sended/', activation_sended, name='activation_sended'),
+    path('users/activation_sended/', activation_sended, name='activation_sended'),
 ]

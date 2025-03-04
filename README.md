@@ -222,3 +222,14 @@ http://127.0.0.1:8000/
 This should redirect you to the index page. 🚀
 
 
+# Books_APP DRF
+
+Add to URL http://127.0.0.1:8000/ URI from table for teste it
+
+|Action	            |HTTP Method	    |URL                |
+|-------------------|-------------------|-------------------|
+|List all books	    |GET	            |api/v1/books/      |
+|Retrieve a book	|GET	            |api/v1/{pk}/books/ |
+|Create a book	    |POST	            |api/v1/books/      |
+|Update a book	    |PUT/PATCH  	    |api/v1/{pk}/books/ |
+|Delete a book	    |DELETE	            |api/v1/{pk}/books/ |

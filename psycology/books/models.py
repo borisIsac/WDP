@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import *
 
 class Books(models.Model):
 
@@ -30,3 +31,17 @@ class Books(models.Model):
     
     def __str__(self):
         return f"{self.author} - {self.title}"
+
+
+class Comment(models.Model):
+    class Meta:
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="users_comment")
+    book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="books_comment")
+    text_comment = models.TextField()
+    published_at = models.DateTimeField("Published date", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user}-{self.book}"

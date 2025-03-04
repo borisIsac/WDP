@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Books
+from .models import *
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +28,16 @@ class BookSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
+    
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'book', 'text_comment', 'published_at']
+        read_only_fields = ['id', 'user', 'book', 'published_at']
+
+    def create(self, validated_data):
+        new_comment= Comment.objects.create(**validated_data)
+        return new_comment
+    
+    def update(self, instance, validated_data):
+        return super().update(instance=instance, validated_data=validated_data)

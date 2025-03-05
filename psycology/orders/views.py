@@ -6,7 +6,6 @@ from .permitions import IsNotAllowDeletePut
 
 
 
-
 # Create your views here.
 class OrderViewSet(viewsets.ModelViewSet):
     

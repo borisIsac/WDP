@@ -25,7 +25,6 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'created_at', 'user', 'items']
-
     
     def create(self, validated_data):
         
@@ -39,4 +38,3 @@ class OrderSerializer(serializers.ModelSerializer):
             OrderItem.objects.create(order=order, **item_data)
 
         return order
-    

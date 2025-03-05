@@ -175,4 +175,4 @@ cython_debug/
 static
 secret_files/
 staticfiles
-
+media

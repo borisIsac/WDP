@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
-app_name = 'cart_list'
+app_name = ''
 router = DefaultRouter()
 router.register(r'cartlist', CartListViewSet , basename='cartlist')
 

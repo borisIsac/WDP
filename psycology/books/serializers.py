@@ -22,12 +22,12 @@ class BookSerializer(serializers.ModelSerializer):
             'updated_at',
             ]
 
-    def create(self, validated_data):
+'''    def create(self, validated_data):
         new_book = Books.objects.create(**validated_data)
         return new_book
     
     def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+        return super().update(instance, validated_data)'''
     
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,9 +35,10 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'book', 'text_comment', 'published_at']
         read_only_fields = ['id', 'user', 'book', 'published_at']
 
+'''
     def create(self, validated_data):
         new_comment= Comment.objects.create(**validated_data)
         return new_comment
     
     def update(self, instance, validated_data):
-        return super().update(instance=instance, validated_data=validated_data)
+        return super().update(instance=instance, validated_data=validated_data)'''

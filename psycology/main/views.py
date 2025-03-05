@@ -20,8 +20,6 @@ import os
 def index(request):
     try:
         users = CustomUser.objects.all()
-        for user in users:
-            print(f"{user}".upper() )
     except:
         print('No one Users')
     return render(request, 'index.html')

@@ -1,13 +1,10 @@
-from django.shortcuts import render
-from rest_framework import viewsets, permissions, response, status, generics
+from rest_framework import viewsets, permissions, response, status
 from rest_framework.views import APIView
-from users.permissions import IsSuperuser
 from .models import *
+from orders.models import Order, OrderItem
 from .serializers import *
 from django.shortcuts import get_object_or_404
-
-
-
+from rest_framework import views, response
 
 
 class CartListViewSet(viewsets.ModelViewSet):
@@ -42,7 +39,9 @@ class CartListViewSet(viewsets.ModelViewSet):
         """
         serializer.save(user=self.request.user)
 
+
 class BookToCartlist(APIView):
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, book_id):
@@ -76,3 +75,26 @@ class BookToCartlist(APIView):
                 'message': f"Book '{book}' has been eleminated"
             }
         return response.Response(context,status=status.HTTP_204_NO_CONTENT)
+    
+class CheckoutView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        """
+        Checkout process and creating order.
+        """
+        book_ids = request.data.get("books", [])  # Lista de IDs de livros
+        if not book_ids:
+            return response.Response({"error": "No books sellected"}, status=status.HTTP_400_BAD_REQUEST)
+
+        order = Order.objects.create(user=request.user)
+
+        for book_id in book_ids:
+            book = Books.objects.get(id=book_id)
+            digital_book = book.digital_book 
+            book_file = book.book_file if digital_book else None
+            
+            OrderItem.objects.create(order=order, book=book, is_ebook=digital_book, ebook_file=book_file)
+
+        return response.Response({"message": "Purchase completed successfully!", "order_id": order.id}, status=status.HTTP_201_CREATED)
+

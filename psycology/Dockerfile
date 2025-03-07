@@ -16,5 +16,6 @@ RUN pip install -r ./requirements.txt
 # Expose the port that the Django app runs on
 EXPOSE 8000
 
-# Run migrations and start the Django server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+
+# Run migrations, tests, runserver
+CMD ["sh", "-c", "python manage.py migrate && python manage.py test && python manage.py runserver 0.0.0.0:8000"]

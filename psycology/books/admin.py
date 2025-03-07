@@ -9,5 +9,10 @@ class BooksComment(admin.ModelAdmin):
     model = Comment
     list_display=['user','book','published_at']
 
+class BooksRatingAdmin(admin.ModelAdmin):
+    model = BookRating
+    list_display = ['user', 'book', 'rating', 'published_at']
+
 admin.site.register(Books, BooksAdmin)
 admin.site.register(Comment, BooksComment)
+admin.site.register(BookRating, BooksRatingAdmin)

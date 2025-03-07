@@ -1,12 +1,18 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, response
 from .models import *
 from .serializers import *
 from .permissions import *
 from rest_framework import generics
 from users.permissions import IsSuperuser
 from wish_list.models import *
+from rest_framework.decorators import api_view
 
 
+@api_view(['GET'])
+def get_book_rating_list(request, book_id):
+    ratings = BookRating.objects.filter(book_id=book_id)
+    serializer = BooksRatingSerializer(ratings, many=True)
+    return response.Response(serializer.data)
 
 class BookViewSet(viewsets.ModelViewSet):
     '''

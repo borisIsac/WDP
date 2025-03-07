@@ -2,6 +2,10 @@ from rest_framework import serializers
 from .models import *
 
 class BookSerializer(serializers.ModelSerializer):
+
+    average_rating = serializers.SerializerMethodField()
+    ratings_list = serializers.SerializerMethodField()
+
     class Meta:
         model = Books
         fields = [
@@ -14,6 +18,7 @@ class BookSerializer(serializers.ModelSerializer):
             'format',
             'stock',
             'category',
+            'ratings_list',
             'average_rating',
             'link_to_ebook',
             'link_to_download',
@@ -21,6 +26,13 @@ class BookSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             ]
+        
+    def get_ratings_list(self, obj):
+        return list(obj.rating_list().values_list('rating', flat=True))
+
+    def get_average_rating(self, obj):
+        return obj.average_rating()
+
 
 '''    def create(self, validated_data):
         new_book = Books.objects.create(**validated_data)
@@ -42,3 +54,8 @@ class CommentSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         return super().update(instance=instance, validated_data=validated_data)'''
+
+class BooksRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=BookRating
+        fields = ['id', 'user', 'book', 'rating', 'published_at']

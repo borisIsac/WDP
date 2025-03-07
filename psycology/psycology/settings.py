@@ -111,7 +111,8 @@ DATABASES = {
 }
 #'''
 
-'''---DOCKER SETTINGS---
+#---DOCKER SETTINGS---
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

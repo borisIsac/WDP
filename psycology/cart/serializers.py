@@ -17,6 +17,6 @@ class CartListSerializer(serializers.ModelSerializer):
         request = self.context['request']
         book = validated_data['books']
         
-        new_wishlist, created = CartList.objects.get_or_create(user=request.user, books = book)
-        return new_wishlist
+        new_cart, created = CartList.objects.get_or_create(user=request.user, books = book)
+        return new_cart
     

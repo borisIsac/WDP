@@ -4,8 +4,8 @@ from .models import *
 from django_recaptcha.fields import ReCaptchaField
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)    
+    email = forms.EmailField(required=True, max_length=256)
+    password = forms.CharField(widget=forms.PasswordInput(), max_length=256, required=True)
 
 
 class RegisterFormUser(forms.ModelForm):
@@ -100,7 +100,7 @@ class ProfileUserUpdateDataForm(forms.ModelForm):
             ),
         required=True,
     )
-        
+
 
 class ProfileBuisnesUpdateDataForm(forms.ModelForm):
     class Meta:
@@ -112,8 +112,7 @@ class ProfileBuisnesUpdateDataForm(forms.ModelForm):
             'shipping_address',   
             'payment_method',   
             'phone',   
-            ]  
-        
+            ]
 
 
 class ConfirationApplyData(forms.ModelForm):

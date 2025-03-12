@@ -30,27 +30,9 @@ class BooksTest(TestCase):
         self.assertEqual(new_book.category, "DevOps") 
         self.assertEqual(new_book.link_to_download, "https://example.com/download") 
         self.assertEqual(new_book.link_to_ebook, "https://example.com/ebook")
-
-    def test_book_creation(self):
-        new_book = Books.objects.create(
-            title="Docker для DevOps",
-            author="Иван Иванов",
-            description="Обзор Docker для разработчиков и DevOps.",
-            published_date="2025-03-01",
-            price=29.99,
-            format=Books.Format.PAPERBACK,
-            stock=100,
-            category="DevOps",
-            link_to_ebook="https://example.com/ebook",
-            link_to_download="https://example.com/download"
-        )
-
-        self.assertEqual(str(new_book), "Иван Иванов - Docker для DevOps")
-
-
+        self.assertEqual(str(new_book), "Иван Иванов-Docker для DevOps")
 
     def test_create_new_comments(self):
-        print('««««««««««««',countries._countries['PT'])
         user = CustomUser.objects.create(
                 is_active=True,
                 email="testemail@email.com",
@@ -82,3 +64,7 @@ class BooksTest(TestCase):
             user = user,
             text_comment = "!!!comment test 1!!!"
         )
+
+        self.assertEqual(user.__str__(), 'Test User Test',)
+        self.assertEqual(book.__str__(),'Иван Иванов-Docker для DevOps')
+        self.assertEqual(new_comment.__str__(), "Test User Test-Иван Иванов-Docker для DevOps")

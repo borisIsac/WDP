@@ -38,7 +38,7 @@ class CustomUser(AbstractUser):
     #todo add avatar field to DB, form and template
     #todo phone number validation
     is_active = models.BooleanField(_("Active"), default=False)
-    email = models.EmailField(unique=True, blank=False, null=False)
+    email = models.EmailField(unique=True, max_length=256,  blank=False, null=False)
     password = models.CharField(_("Password"), max_length=256, blank=False, null=False)
     full_name = models.CharField(_("Full Name"), max_length=100, blank=False, null=False)
     phone =models.CharField(_("Phone Number"), blank=True, max_length=25 ,null=True)
@@ -49,7 +49,8 @@ class CustomUser(AbstractUser):
 
     #avatar = models.ImageField(_("Avatar"), '''upload_to='avatars/',''' blank=True, null=True)
 
-
+    def __str__(self):
+        return self.full_name
 
 class BuisnesUser(CustomUser):
     '''

@@ -1,8 +1,7 @@
 from django.db import models
-from users.models import *
-from users.models import CustomUser
+from django.contrib.auth import get_user_model
 from django.utils import timezone
-
+CustomUser = get_user_model()
 
 class Books(models.Model):
 
@@ -25,8 +24,7 @@ class Books(models.Model):
     category = models.CharField(max_length=100)
     link_to_ebook = models.URLField(blank=True)
     link_to_download = models.URLField(blank=True)
-    #TODO add cover field to DB, form and template and speack with team about storege
-    cover = models.ImageField(upload_to='img/',  blank=True, null=True)
+    cover = models.ImageField(upload_to='img/books/',  blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -63,7 +61,7 @@ class Comment(models.Model):
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="users_comment")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_book_comment")
     book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="books_comment")
     text_comment = models.TextField()
     published_at = models.DateTimeField("Published date", auto_now_add=True)

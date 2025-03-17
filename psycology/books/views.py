@@ -71,4 +71,33 @@ class CommentsViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         book_id = self.kwargs['book_id']
         return serializer.save(user=self.request.user, book_id=book_id)
-    
+
+
+class RatingViewSet(viewsets.ModelViewSet):
+    '''
+    print all comments to each books.
+    return JSON
+    '''
+    serializer_class = BooksRatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_permissions(self):
+        """
+        Assign different permissions based on the action.
+        """
+        if self.action == "create":
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
+
+    def get_queryset(self):
+        """
+        Get a Rating witch bellongs to single book by primary key.
+        """
+        book_id = self.kwargs['book_id']
+        return BookRating.objects.filter(book_id=book_id)
+
+    def perform_create(self, serializer):
+        book_id = self.kwargs['book_id']
+        book = Books.objects.get(id=book_id)
+        user= self.request.user
+        serializer.save(user=user, book=book)

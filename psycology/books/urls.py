@@ -8,6 +8,9 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'books', BookViewSet, basename='books')
 
+
+router.register(r'books/(?P<book_id>\d+)/rating', RatingViewSet, basename='rating')
+
 urlpatterns = [
     path('', include(router.urls)),
     path('books/<int:book_id>/comments/', CommentsViewSet.as_view({'get': 'list', 'post': 'create'}), name='book_comments'),

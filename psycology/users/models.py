@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django_countries import countries
+from courses.models import Courses
+
 
 #from psycology.books.models import Books
 
@@ -48,10 +50,9 @@ class CustomUser(AbstractUser):
     birthday = models.DateField(_("Birthday"),default=None, blank=True, null=True)
     gender = models.CharField(_("Gender"), choices=Gender.choices, default=Gender.SELECT, max_length=10)
     country = models.CharField(_("Country"), choices=countries, max_length=100, blank=True, null=True)
-    #books = models.ManyToManyField(Books, blank=True, related_name="buyers")
-
-
-    #avatar = models.ImageField(_("Avatar"), '''upload_to='avatars/',''' blank=True, null=True)
+    books = models.ManyToManyField('books.Books', blank=True, related_name="buyers")
+    courses = models.ManyToManyField('courses.Courses', blank=True, related_name="students")
+    avatar = models.ImageField(_("Avatar"), upload_to='avatars/', blank=True, null=True)
 
     def __str__(self):
         return self.full_name

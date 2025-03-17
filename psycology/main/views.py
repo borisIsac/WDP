@@ -18,11 +18,15 @@ import os
 # Create your views here.
 
 def index(request):
+    context = {
+        'title': 'HomePage'
+    }
     try:
-        users = CustomUser.objects.all()
+        user = CustomUser.objects.filter(user=request.user)
+        context['user'] = user
     except:
         print('No one Users')
-    return render(request, 'index.html')
+    return render(request, 'index.html', context)
 
 #ToDo Google API
 

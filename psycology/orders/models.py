@@ -1,6 +1,10 @@
 from django.db import models
 from books.models import *
 from users.models import *
+from courses.models import *
+
+
+
 
 # Create your models here.
 class Order(models.Model):
@@ -18,10 +22,11 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
-    book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="order_items")
-    quantity = models.PositiveIntegerField(default=1)
+    book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="order_book_items", null=True, blank=True)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name="order_course_items", null=True, blank=True)
     digital_book = models.BooleanField(default=False)
     book_file = models.FileField(upload_to='ebooks/', null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} item(s) {self.book} of {self.order}"
+        return f"Item(s) {self.book} and {self.course}"

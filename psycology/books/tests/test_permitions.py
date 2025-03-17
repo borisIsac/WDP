@@ -2,9 +2,10 @@ from django.urls import reverse
 from django_countries import countries
 from rest_framework import status
 from ..models import Comment, Books
-from users.models import CustomUser
+from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APIClient
 
+CustomUser=get_user_model()
 
 class IsOwnerOrReadOnlyTest(APITestCase):
     def setUp(self):

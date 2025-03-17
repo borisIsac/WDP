@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
 from books.models import Books, BookRating, Comment
-from users.models import CustomUser 
+from django.contrib.auth import get_user_model
 from django_countries import countries
 
+CustomUser = get_user_model()
 
 class BooksTest(TestCase):
     def setUp(self):

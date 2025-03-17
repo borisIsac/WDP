@@ -26,6 +26,7 @@ SITE_DOMAIN = 'http://localhost:8000'
 # Application definition
 
 INSTALLED_APPS = [
+    #Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,15 +42,18 @@ INSTALLED_APPS = [
     'django_recaptcha',
     "corsheaders",
 
-    #my_apps
+    # my_apps
     'users',
-    'main',
     'books',
+    'courses',
+    'main',
     'wish_list',
     'cart',
     'orders',
-    'courses',
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -174,7 +178,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Static files directory
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.CustomUser'
+
 
 AUTHENTICATION_BACKENDS = [
     'users.authentication_backend_email.EmailAuthBackend',  
